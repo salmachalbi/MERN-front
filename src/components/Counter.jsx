@@ -1,38 +1,70 @@
 import React, { useState } from 'react';
 
 export default function Counter() {
-  // Declaration de l'etat reactif count initialise a 0
   const [count, setCount] = useState(0);
+  const [step, setStep] = useState(1);
+  const [message, setMessage] = useState('Aucun clic pour le moment');
+  const [totalClics, setTotalClics] = useState(0);
+  const [historique, setHistorique] = useState([]);
 
-  // Fonction d'incrementation
+  // Gestionnaire d'incrementation avec variables simples
   const handleIncrement = () => {
-    // Forme fonctionnelle recommandee : garantit d'utiliser la valeur precedente exacte
-    setCount((prev) => prev + 1);
+    const nouveauCompte = count + step;
+    setCount(nouveauCompte);
+    setMessage('Ajout de ' + step);
+    setTotalClics(totalClics + 1);
+    const action = '+' + step;
+    setHistorique([...historique, action]);
   };
 
-  // Fonction de decrementation
+  // Gestionnaire de decrementation
   const handleDecrement = () => {
-    setCount((prev) => prev - 1);
+    const nouveauCompte = count - step;
+    setCount(nouveauCompte);
+    setMessage('Retrait de ' + step);
+    setTotalClics(totalClics + 1);
+    const action = '-' + step;
+    setHistorique([...historique, action]);
   };
 
-  // Fonction de remise a zero
+  // Gestionnaire de remise a zero
   const handleReset = () => {
     setCount(0);
+    setMessage('Remise a zero');
+    setTotalClics(totalClics + 1);
+    setHistorique([]);
+  };
+
+  // Couleur dynamique selon le signe du compteur
+  const getStyleClass = () => {
+    if (count > 0) return 'counter-display positive';
+    if (count < 0) return 'counter-display negative';
+    return 'counter-display zero';
   };
 
   return (
     <div className="counter-card">
-      <div className="counter-display">{count}</div>
+      <div className={getStyleClass()}>{count}</div>
       <div className="btn-group">
-        <button className="btn btn-dec" onClick={handleDecrement}>
-          -1
-        </button>
-        <button className="btn btn-reset" onClick={handleReset}>
-          Reset
-        </button>
-        <button className="btn btn-inc" onClick={handleIncrement}>
-          +1
-        </button>
+        <button className="btn btn-dec" onClick={handleDecrement}>-{step}</button>
+        <button className="btn btn-reset" onClick={handleReset}>Reset</button>
+        <button className="btn btn-inc" onClick={handleIncrement}>+{step}</button>
+      </div>
+      <div className="step-control">
+        <label>Pas d'incrementation : </label>
+        <select value={step} onChange={(e) => setStep(parseInt(e.target.value, 10))}>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="5">5</option>
+          <option value="10">10</option>
+        </select>
+      </div>
+      <div className="history-card">
+        <p><strong>Derniere action : </strong> {message}</p>
+        <p><strong>Total des clics : </strong> {totalClics}</p>
+        {historique.length > 0 && (
+          <p><strong>Historique : </strong> {historique.join(', ')}</p>
+        )}
       </div>
     </div>
   );
