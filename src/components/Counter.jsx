@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 
 export default function Counter() {
-  // 1. Initialisation de count depuis le localStorage (si existant, sinon 0)
+  
+    // 1. Initialisation de count depuis le localStorage (si existant, sinon 0)
   const [count, setCount] = useState(() => {
     const sauvegarde = localStorage.getItem('mon_compteur_valeur');
     return sauvegarde !== null ? parseInt(sauvegarde, 10) : 0;
@@ -9,8 +10,12 @@ export default function Counter() {
   const [step, setStep] = useState(1);
   const [message, setMessage] = useState('Aucun clic pour le moment');
   const [totalClics, setTotalClics] = useState(0);
-  const [historique, setHistorique] = useState([]);
 
+// Défi 2 : Sauvegarde & Restauration Complète de l’Historique (useEffect) ★★
+const [historique, setHistorique] = useState(() => {
+  const sauvegarde = localStorage.getItem('mon_compteur_historique');
+  return sauvegarde !== null ? JSON.parse(sauvegarde) : [];
+});
   // 2. EFFET A : Synchroniser le titre de l'onglet du navigateur
   useEffect(() => {
     document.title = 'Compteur : ' + count;
@@ -20,7 +25,10 @@ export default function Counter() {
   useEffect(() => {
     localStorage.setItem('mon_compteur_valeur', count.toString());
   }, [count]);
-
+  // Défi 2 :EFFET C : Sauvegarde automatique de l'historique dans le localStorage
+useEffect(() => {
+  localStorage.setItem('mon_compteur_historique', JSON.stringify(historique));
+}, [historique]);
   // Gestionnaire d'incrementation avec variables simples et borne max
 const handleIncrement = () => {
   const nouveauCompte = count + step;
