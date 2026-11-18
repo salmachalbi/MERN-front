@@ -11,7 +11,7 @@ export default function Counter() {
   const [message, setMessage] = useState('Aucun clic pour le moment');
   const [totalClics, setTotalClics] = useState(0);
 
-// Défi 2 : Sauvegarde & Restauration Complète de l’Historique (useEffect) ★★
+// Défi 2 : Sauvegarde & Restauration Complète de l'Historique (useEffect) ★★
 const [historique, setHistorique] = useState(() => {
   const sauvegarde = localStorage.getItem('mon_compteur_historique');
   return sauvegarde !== null ? JSON.parse(sauvegarde) : [];
@@ -29,6 +29,8 @@ const [historique, setHistorique] = useState(() => {
 useEffect(() => {
   localStorage.setItem('mon_compteur_historique', JSON.stringify(historique));
 }, [historique]);
+
+
   // Gestionnaire d'incrementation avec variables simples et borne max
 const handleIncrement = () => {
   const nouveauCompte = count + step;
@@ -56,6 +58,21 @@ const handleDecrement = () => {
   const action = '-' + step;
   setHistorique([...historique, action]);
 };
+
+// Défi 3 : Controle du Compteur au Clavier (useEffect & Nettoyage) ★★★
+useEffect(() => {
+  const handleKeyDown = (e) => {
+    if (e.key === 'ArrowUp') {
+      handleIncrement();
+    } else if (e.key === 'ArrowDown') {
+      handleDecrement();
+    }
+  };
+  window.addEventListener('keydown', handleKeyDown);
+  return () => {
+    window.removeEventListener('keydown', handleKeyDown);
+  };
+}, [count, step]);
 
   // Gestionnaire de remise a zero
   const handleReset = () => {
