@@ -65,19 +65,19 @@ body {
   font-size: 1rem;
   font-weight: bold;
   cursor: pointer;
-  color: #ffffff;
+  color: #d69d9d;
 }
 
 .btn-dec {
-  background-color: #dc2626;
+  background-color: #ce4a4a;
 }
 
 .btn-reset {
-  background-color: #64748b;
+  background-color: #738193;
 }
 
 .btn-inc {
-  background-color: #2563eb;
+  background-color: #698cd8;
 }
 
 .step-control {
@@ -97,7 +97,7 @@ body {
   padding: 12px;
   text-align: left;
   font-size: 0.9rem;
-  color: #334155;
+  color: #412c3a;
 }
 
 .history-card p {
@@ -106,7 +106,7 @@ body {
 
 .timer-box {
   margin-top: 16px;
-  background-color: #eff6ff;
+  background-color: #698cd8;
   padding: 10px 16px;
   border-radius: 8px;
   display: flex;

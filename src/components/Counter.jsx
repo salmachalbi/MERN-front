@@ -21,25 +21,33 @@ export default function Counter() {
     localStorage.setItem('mon_compteur_valeur', count.toString());
   }, [count]);
 
-  // Gestionnaire d'incrementation avec variables simples
-  const handleIncrement = () => {
-    const nouveauCompte = count + step;
-    setCount(nouveauCompte);
-    setMessage('Ajout de ' + step);
-    setTotalClics(totalClics + 1);
-    const action = '+' + step;
-    setHistorique([...historique, action]);
-  };
+  // Gestionnaire d'incrementation avec variables simples et borne max
+const handleIncrement = () => {
+  const nouveauCompte = count + step;
+  if (nouveauCompte > 50) {
+    setMessage('Seuil maximal de 50 atteint !');
+    return;
+  }
+  setCount(nouveauCompte);
+  setMessage('Ajout de ' + step);
+  setTotalClics(totalClics + 1);
+  const action = '+' + step;
+  setHistorique([...historique, action]);
+};
 
-  // Gestionnaire de decrementation
-  const handleDecrement = () => {
-    const nouveauCompte = count - step;
-    setCount(nouveauCompte);
-    setMessage('Retrait de ' + step);
-    setTotalClics(totalClics + 1);
-    const action = '-' + step;
-    setHistorique([...historique, action]);
-  };
+  // Gestionnaire de decrementation avec borne min
+const handleDecrement = () => {
+  const nouveauCompte = count - step;
+  if (nouveauCompte < -50) {
+    setMessage('Seuil minimal de -50 atteint !');
+    return;
+  }
+  setCount(nouveauCompte);
+  setMessage('Retrait de ' + step);
+  setTotalClics(totalClics + 1);
+  const action = '-' + step;
+  setHistorique([...historique, action]);
+};
 
   // Gestionnaire de remise a zero
   const handleReset = () => {
